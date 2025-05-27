@@ -1,0 +1,31 @@
+{ 
+    "form": {
+        "width": 500,
+        "height": 120,
+        "location": [0, 0]
+    },
+ 
+
+    "buttons": [
+        [
+            {
+                "id": 1,
+                "text": "Cmd"
+            },
+            {
+                "id": 2,
+                "text": "Notepad"
+            }
+        ] 
+    ],
+    "events": [
+        {
+            "id": 1,
+            "eventName": "C:\\Windows\\System32\\cmd.exe"
+        },
+        {
+            "id": 2,
+            "eventName": "C:\\Windows\\System32\\notepad.exe"
+        }
+    ]
+}
