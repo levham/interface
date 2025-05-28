@@ -20,42 +20,57 @@ namespace a16
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var formData = controller.LoadFormSettings();
-            if (formData != null)
+            var formData = FormController.LoadFormSettings();
+
+            if (formData != null && formData.form != null)
             {
                 this.Size = new Size(formData.form.width, formData.form.height);
                 this.Location = new Point(formData.form.location[0], formData.form.location[1]);
+            }
+            else
+            {
+                MessageBox.Show("Form ayarlarý yüklenemedi! JSON içeriðini kontrol edin.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             LoadButtons();
         }
 
+
+
         private void LoadButtons()
         {
-            var buttons = controller.GetButtons();
+            var buttonsData = controller.GetButtons();
             var eventMappings = controller.GetEventMappings();
 
             int yPos = 20;
             using (Graphics g = CreateGraphics())
             {
-                foreach (var btnData in buttons)
+                foreach (var row in buttonsData)
                 {
-                    int buttonWidth = (int)g.MeasureString(btnData.text, this.Font).Width + 20;
+                    int xPos = 20; // Butonlarýn yatay baþlangýç noktasý
 
-                    Button button = new Button
+                    foreach (var btnData in row)
                     {
-                        Text = btnData.text,
-                        Size = new Size(buttonWidth, 30),
-                        Location = new Point(20, yPos),
-                        Tag = btnData.id
-                    };
-                    button.Click += Button_Click;
-                    this.Controls.Add(button);
-                    yPos += 40;
+                        int buttonWidth = (int)g.MeasureString(btnData.text, this.Font).Width + 20;
+
+                        Button button = new Button
+                        {
+                            Text = btnData.text,
+                            Size = new Size(buttonWidth, 30),
+                            Location = new Point(xPos, yPos),
+                            Tag = btnData.id
+                        };
+                        button.Click += Button_Click;
+                        this.Controls.Add(button);
+
+                        xPos += buttonWidth + 10; // Yatay olarak ilerle
+                    }
+
+                    yPos += 40; // Yeni satýr için aþaðý kaydýr
                 }
             }
 
-            this.eventMappings = eventMappings; // Olay eþleþmelerini güncelle
+            this.eventMappings = eventMappings;
         }
 
         private void Button_Click(object? sender, EventArgs e)

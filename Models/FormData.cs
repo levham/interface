@@ -1,9 +1,12 @@
 namespace a16.Models
 {
+   
+
     public class FormData
     {
-        public FormSettings form { get; set; } = new FormSettings();
+        public FormSettings form { get; set; } = new FormSettings(); 
     }
+
 
     public class FormSettings
     {
