@@ -1,9 +1,7 @@
 # 📂 interface
 
-✨Bu program ile kendi butonlu menünüzü button.json dosyası üzerinden yazabilirsiniz.
-
 > [!TIP]
-> →Program şurada -> [_**bin\Debug\net8.0-windows\a16.exe**_](https://github.com/levham/interface/blob/main/bin/Debug/net8.0-windows/a16.exe). 
+> ✨Bu program ile kendi butonlu menünüzü button.json dosyası üzerinden yazabilirsiniz.<br/>→Program şurada -> [_**bin\Debug\net8.0-windows\a16.exe**_](https://github.com/levham/interface/blob/main/bin/Debug/net8.0-windows/a16.exe). 
 
 > [!NOTE]
 > Button.json içeriğini değiştirdikten sonra a16.exe'yi çalştırabilirsiniz.
@@ -20,9 +18,12 @@
 | _**events**_    | _çalıştırılacak programlar_|
 | `eventName` | _çalıştırılacak program_|
 <br>
+<br>
 
-✨✨<ins>**Örnek Button.json**</ins>
-```
+> [!TIP]
+>  ✨✨<ins>**Örnek1 Button.json**</ins> 
+
+``` 
 { 
     "form": 
 	{
@@ -45,12 +46,21 @@
 
 }
 ```
-📌**Programın Çalışma Örneği**
-![output](test1.png)
 <br>
 
-✨✨<ins>**Örnek2 Button.json**</ins>
-```
+> [!NOTE]
+> 📌**Programın Çalışma Örneği**
+
+![output](test1.png)
+<br>
+---
+<br>
+<br>
+
+> [!TIP]
+>  ✨✨<ins>**Örnek2 Button.json**</ins> 
+
+``` 
 { 
     "form": 
 	{
@@ -75,5 +85,12 @@
 
 }
 ```
-📌**Programın Çalışma Örneği**
+
+<br>
+
+> [!NOTE]
+> 📌**Programın Çalışma Örneği**
+
 ![output](test2.png)
+
+<br>

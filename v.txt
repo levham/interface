@@ -1,0 +1,4 @@
+1.0 Proje yazılımı
+1.1 Json hatası düzeltildi
+1.2 Readme düzenlenmesi
+1.2.1 Readme düzenlenmesi
