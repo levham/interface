@@ -1,108 +1,215 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Text.Json;
 using System.Diagnostics;
-using a16.Controllers;
-using a16.Models;
-
 namespace a16
 {
     public partial class Form1 : Form
     {
-        private Dictionary<int, string> eventMappings = new Dictionary<int, string>();
-        private FormController controller = new FormController();
-
+        private MenuStrip menuStrip;
+        private FlowLayoutPanel panel;
         public Form1()
         {
             InitializeComponent();
-        }
+            menuStrip = new MenuStrip(); // Menü nesnesini baþlat
+            panel = new FlowLayoutPanel(); // Panel nesnesini baþlat
 
+            CreateMenu();
+            CreateButtonPanel();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            var formData = FormController.LoadFormSettings();
+            LoadFormSettings();
+        }
 
-            if (formData != null && formData.form != null)
+        private void CreateMenu()
+        {
+            menuStrip = new MenuStrip
             {
-                this.Size = new Size(formData.form.width, formData.form.height);
-                this.Location = new Point(formData.form.location[0], formData.form.location[1]);
+                Dock = DockStyle.Top // Menü yukarý sabitlendi
+            };
+            this.Controls.Add(menuStrip);
+        }
+
+        private void CreateButtonPanel()
+        {
+            panel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,  // Formun içinde tam yayýlmasýný saðla
+                AutoSize = true,
+                FlowDirection = FlowDirection.TopDown,
+                Padding = new Padding(0, 20, 0, 0) // Menü ile boþluk býrak
+            };
+            this.Controls.Add(panel);
+        }
+
+
+        private void LoadFormSettings()
+        {
+            string filePath = "data.json"; // JSON dosya yolu
+
+            // Varsayýlan deðerler
+            int defaultWidth = 500;
+            int defaultHeight = 120;
+            int defaultX = 0;
+            int defaultY = 0;
+
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    string jsonData = File.ReadAllText(filePath);
+                    using JsonDocument doc = JsonDocument.Parse(jsonData);
+                    JsonElement root = doc.RootElement;
+
+                    if (root.TryGetProperty("form", out JsonElement formElement))
+                    {
+                        int width = formElement.TryGetProperty("width", out JsonElement widthEl) ? widthEl.GetInt32() : defaultWidth;
+                        int height = formElement.TryGetProperty("height", out JsonElement heightEl) ? heightEl.GetInt32() : defaultHeight;
+
+                        int x = defaultX, y = defaultY;
+                        if (formElement.TryGetProperty("location", out JsonElement locationEl) && locationEl.GetArrayLength() == 2)
+                        {
+                            x = locationEl[0].GetInt32();
+                            y = locationEl[1].GetInt32();
+                        }
+
+                        // Form özelliklerini ayarla
+                        this.Size = new System.Drawing.Size(width, height);
+                        this.Location = new System.Drawing.Point(x, y);
+
+                        // Pencere adýný ayarla
+                        if (formElement.TryGetProperty("name", out JsonElement nameElement))
+                        {
+                            this.Text = nameElement.GetString() ?? "Form";
+                        }
+
+                    }
+
+                    if (root.TryGetProperty("menu", out JsonElement menuElement))
+                    {
+                        foreach (JsonProperty section in menuElement.EnumerateObject())
+                        {
+                            ToolStripMenuItem menuItem = new ToolStripMenuItem(section.Name);
+
+                            foreach (JsonElement item in section.Value.EnumerateArray())
+                            {
+                                string openFile = item.TryGetProperty("openfile", out JsonElement openFileElement) ? openFileElement.GetString() ?? string.Empty : string.Empty;
+                                string openFolder = item.TryGetProperty("openfolder", out JsonElement openFolderElement) ? openFolderElement.GetString() ?? string.Empty : string.Empty;
+
+                                if (item.TryGetProperty("list", out JsonElement listElement))
+                                {
+                                    ToolStripMenuItem subItem = new ToolStripMenuItem(listElement.GetString());
+                                    subItem.Click += (sender, e) => OpenProgram(openFile, openFolder);
+                                    menuItem.DropDownItems.Add(subItem);
+                                }
+                            }
+
+                            menuStrip.Items.Add(menuItem);
+                        }
+                    }
+
+                    if (root.TryGetProperty("buttons", out JsonElement buttonsElement))
+                    {
+                        foreach (JsonElement row in buttonsElement.EnumerateArray()) // Satýrlarý oku
+                        {
+                            FlowLayoutPanel rowPanel = new FlowLayoutPanel
+                            {
+                                AutoSize = true,
+                                FlowDirection = FlowDirection.LeftToRight
+                            };
+
+                            foreach (JsonElement buttonItem in row.EnumerateArray()) // Butonlarý oku
+                            {
+                                string openFile = buttonItem.TryGetProperty("openfile", out JsonElement openFileElement) ? openFileElement.GetString() ?? string.Empty : string.Empty;
+                                string openFolder = buttonItem.TryGetProperty("openfolder", out JsonElement openFolderElement) ? openFolderElement.GetString() ?? string.Empty : string.Empty;
+
+                                if (buttonItem.TryGetProperty("text", out JsonElement textElement))
+                                {
+                                    Button button = new Button
+                                    {
+                                        Text = textElement.GetString(),
+                                        AutoSize = true
+                                    };
+
+                                    button.Click += (sender, e) => OpenProgram(openFile, openFolder);
+                                    rowPanel.Controls.Add(button);
+                                }
+                            }
+
+                            panel.Controls.Add(rowPanel); // Satýrý ekle
+                        }
+                    }
+                }
+                catch (Exception ex)
+                { MessageBox.Show("JSON verisi okunurken hata oluþtu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
             }
             else
             {
-                MessageBox.Show("Form ayarlarý yüklenemedi! JSON içeriðini kontrol edin.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("data.json dosyasý bulunamadý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            LoadButtons();
         }
 
 
 
-        private void LoadButtons()
+        private void OpenProgram(string openfile, string openfolder)
         {
-            var buttonsData = controller.GetButtons();
-            var eventMappings = controller.GetEventMappings();
-
-            int yPos = 20;
-            using (Graphics g = CreateGraphics())
+            if (!string.IsNullOrEmpty(openfile) && File.Exists(openfile))
             {
-                foreach (var row in buttonsData)
+                try
                 {
-                    int xPos = 20; // Butonlarýn yatay baþlangýç noktasý
+                    string extension = Path.GetExtension(openfile).ToLower();
+                    string[] parts = openfile.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                    string filePath = parts[0];
+                    string arguments = parts.Length > 1 ? parts[1] : "";
 
-                    foreach (var btnData in row)
+                    if (extension == ".exe" || extension == ".bat")
                     {
-                        int buttonWidth = (int)g.MeasureString(btnData.text, this.Font).Width + 20;
-
-                        Button button = new Button
+                        ProcessStartInfo psi = new ProcessStartInfo(filePath)
                         {
-                            Text = btnData.text,
-                            Size = new Size(buttonWidth, 30),
-                            Location = new Point(xPos, yPos),
-                            Tag = btnData.id
+                            UseShellExecute = true,
+                            Arguments = arguments
                         };
-                        button.Click += Button_Click;
-                        this.Controls.Add(button);
-
-                        xPos += buttonWidth + 10; // Yatay olarak ilerle
+                        Process.Start(psi);
                     }
-
-                    yPos += 40; // Yeni satýr için aþaðý kaydýr
-                }
-            }
-
-            this.eventMappings = eventMappings;
-        }
-
-        private void Button_Click(object? sender, EventArgs e)
-        {
-            if (sender is Button clickedButton && clickedButton.Tag is int buttonId)
-            {
-                if (eventMappings.TryGetValue(buttonId, out string? command) && !string.IsNullOrWhiteSpace(command))
-                {
-                    if (File.Exists(command)) // Dosya gerçekten varsa çalýþtýr
+                    else if (extension == ".py")
                     {
-                        try
-                        {
-                            Process.Start(command);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Hata: {ex.Message}\nGeçerli bir dosya veya komut girin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        Process.Start(new ProcessStartInfo("python", $"\"{filePath}\" {arguments}") { UseShellExecute = false });
+                    }
+                    else if (extension == ".js")
+                    {
+                        Process.Start(new ProcessStartInfo("node", $"\"{filePath}\" {arguments}") { UseShellExecute = false });
+                    }
+                    else if (extension == ".html")
+                    {
+                        Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
                     }
                     else
                     {
-                        MessageBox.Show($"Dosya bulunamadý: {command}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Process.Start(new ProcessStartInfo("explorer.exe", $"/select,\"{filePath}\"") { UseShellExecute = true });
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Dosya adý saðlanmadý! JSON içinde geçerli bir dosya veya komut olup olmadýðýný kontrol edin.");
+                    MessageBox.Show("Dosya açýlýrken hata oluþtu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else if (!string.IsNullOrEmpty(openfolder) && Directory.Exists(openfolder))
+            {
+                try
+                {
+                    Process.Start(new ProcessStartInfo(openfolder) { UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Klasör açýlýrken hata oluþtu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Belirtilen dosya veya klasör bulunamadý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-
-
+        
     }
 }

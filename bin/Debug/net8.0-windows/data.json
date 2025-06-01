@@ -1,0 +1,27 @@
+{
+    "form": {
+        "name":"Arayüz16.2.x",
+        "width": 550,
+        "height": 120,
+        "location": [0, 0]
+    },
+    "menu": {
+        "program": [
+            { "id": 1, "list": "Taskmgr", "openfile": "C:\\Windows\\System32\\taskmgr.exe" },
+            { "id": 2, "list": "Kaydet", "openfile": "C:\\Windows\\System32\\mspaint.exe" }
+        ],
+        "dosyalarım": [
+            { "id": 1, "list": "System32", "openfolder": "C:\\Windows\\System32" }
+        ]
+    },
+    "buttons": [
+        [
+            { "id": 1, "text": "Cmd", "openfile": "C:\\Windows\\System32\\cmd.exe" },
+            { "id": 2, "text": "Notepad", "openfile": "C:\\Windows\\System32\\notepad.exe" }
+        ],
+        [
+            { "id": 3, "text":  "System32", "openfolder": "C:\\Windows\\System32" },
+            { "id": 4, "text": "Calculator", "openfile": "C:\\Windows\\System32\\calc.exe" }
+        ]
+    ] 
+}

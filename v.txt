@@ -2,3 +2,4 @@
 1.1 Json hatası düzeltildi
 1.2 Readme düzenlenmesi
 1.2.1 Readme düzenlenmesi
+2.2 yeniden yazıldı
