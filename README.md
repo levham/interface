@@ -15,9 +15,9 @@
 | `width: 500`       | _pencere genişliği_|
 | `height: 120`      | _pencere yüksekliği_|
 |`location:[0, 0]`     | _pencere konumu_|
-|`buttonsize` | _butonların uzunluğu |
-|`alwaysontop` | _pencere ön planda mı|
-|`brightness` | _pencere parlaklığı|
+|`buttonsize:auto` | _butonların uzunluğu_ |
+|`alwaysontop:true` | _pencere ön planda mı_|
+|`brightness:90` | _pencere parlaklığı_|
 | _**menu**_  | _menuler_|
 | _list_    | _menuler için seçenekler_|
 | _openfile_    | _dosya çalıştır_|
