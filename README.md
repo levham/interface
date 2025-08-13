@@ -26,6 +26,8 @@
 | _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
 <br>
+<br>
+
 > [!TIP]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programı parametreli çalıştırmış olursun.
 <br>
