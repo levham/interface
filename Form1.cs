@@ -56,12 +56,31 @@ namespace a16
             {
                 try
                 {
-                    string jsonData = File.ReadAllText(filePath);
-                    using JsonDocument doc = JsonDocument.Parse(jsonData);
-                    JsonElement root = doc.RootElement;
+                    string jsonData = File.ReadAllText(filePath); 
+                    JsonElement root;
+                    using (JsonDocument doc = JsonDocument.Parse(jsonData))
+                    {
+                        root = doc.RootElement.Clone(); // Dispose sonrasý kullanýlabilir hale getiriyoruz
+                    }
+                    int defaultButtonWidth = 100;
 
                     if (root.TryGetProperty("form", out JsonElement formElement))
                     {
+                        
+                        if (formElement.TryGetProperty("buttonsize", out JsonElement buttonSizeElement))
+                        {
+                            string buttonSizeValue = buttonSizeElement.GetString() ?? "default";
+
+                            if (buttonSizeValue.ToLower() == "auto")
+                            {
+                                defaultButtonWidth = -1; // Auto ayarý için özel bir deðer belirleyelim
+                            }
+                            else if (int.TryParse(buttonSizeValue, out int parsedWidth))
+                            {
+                                defaultButtonWidth = parsedWidth;
+                            }
+                        }
+
                         int width = formElement.TryGetProperty("width", out JsonElement widthEl) ? widthEl.GetInt32() : defaultWidth;
                         int height = formElement.TryGetProperty("height", out JsonElement heightEl) ? heightEl.GetInt32() : defaultHeight;
 
@@ -81,35 +100,23 @@ namespace a16
                         {
                             this.Text = nameElement.GetString() ?? "Form";
                         }
+                        bool alwaysOnTop = formElement.TryGetProperty("alwaysontop", out JsonElement topEl) && topEl.GetBoolean();
+                        this.TopMost = alwaysOnTop;
 
-                    }
-
-                    if (root.TryGetProperty("menu", out JsonElement menuElement))
-                    {
-                        foreach (JsonProperty section in menuElement.EnumerateObject())
+                        if (formElement.TryGetProperty("brightness", out JsonElement brightnessEl))
                         {
-                            ToolStripMenuItem menuItem = new ToolStripMenuItem(section.Name);
-
-                            foreach (JsonElement item in section.Value.EnumerateArray())
-                            {
-                                string openFile = item.TryGetProperty("openfile", out JsonElement openFileElement) ? openFileElement.GetString() ?? string.Empty : string.Empty;
-                                string openFolder = item.TryGetProperty("openfolder", out JsonElement openFolderElement) ? openFolderElement.GetString() ?? string.Empty : string.Empty;
-
-                                if (item.TryGetProperty("list", out JsonElement listElement))
-                                {
-                                    ToolStripMenuItem subItem = new ToolStripMenuItem(listElement.GetString());
-                                    subItem.Click += (sender, e) => OpenProgram(openFile, openFolder);
-                                    menuItem.DropDownItems.Add(subItem);
-                                }
-                            }
-
-                            menuStrip.Items.Add(menuItem);
+                            int brightnessValue = brightnessEl.GetInt32();
+                            // Deðer 0-100 arasýnda varsayýlýyor; 0 => tamamen þeffaf, 100 => tamamen opak
+                            double opacity = Math.Clamp(brightnessValue / 100.0, 0.0, 1.0);
+                            this.Opacity = opacity;
                         }
+
                     }
 
                     if (root.TryGetProperty("buttons", out JsonElement buttonsElement))
                     {
-                        foreach (JsonElement row in buttonsElement.EnumerateArray()) // Satýrlarý oku
+                         
+                        foreach (JsonElement row in buttonsElement.EnumerateArray())
                         {
                             FlowLayoutPanel rowPanel = new FlowLayoutPanel
                             {
@@ -117,27 +124,125 @@ namespace a16
                                 FlowDirection = FlowDirection.LeftToRight
                             };
 
-                            foreach (JsonElement buttonItem in row.EnumerateArray()) // Butonlarý oku
+                            foreach (JsonElement buttonItem in row.EnumerateArray())
                             {
-                                string openFile = buttonItem.TryGetProperty("openfile", out JsonElement openFileElement) ? openFileElement.GetString() ?? string.Empty : string.Empty;
-                                string openFolder = buttonItem.TryGetProperty("openfolder", out JsonElement openFolderElement) ? openFolderElement.GetString() ?? string.Empty : string.Empty;
+                                string openFile = buttonItem.GetPropertyOrDefault("openfile");
+                                string openFolder = buttonItem.GetPropertyOrDefault("openfolder");
+                                string args = buttonItem.GetPropertyOrDefault("args");
+                                string openFileMin = buttonItem.GetPropertyOrDefault("openfilemin");
+                                string buttonText = buttonItem.GetPropertyOrDefault("text");
 
-                                if (buttonItem.TryGetProperty("text", out JsonElement textElement))
+                                Button button = new Button { Text = buttonText };
+
+                                if (defaultButtonWidth == -1)
                                 {
-                                    Button button = new Button
-                                    {
-                                        Text = textElement.GetString(),
-                                        AutoSize = true
-                                    };
-
-                                    button.Click += (sender, e) => OpenProgram(openFile, openFolder);
-                                    rowPanel.Controls.Add(button);
+                                    button.AutoSize = true;
+                                    button.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+                                    button.Padding = new Padding(10,0,10,0);
+                                    button.Margin = new Padding(0, 0, 7, 0);  
+                                    button.MinimumSize = Size.Empty;
                                 }
+                                else
+                                {
+                                    button.Width = defaultButtonWidth;
+                                }
+
+                                button.Click += (sender, e) =>
+                                {
+                                    LaunchProcess(openFile, openFileMin, openFolder, args);
+                                };
+
+                                rowPanel.Controls.Add(button);
                             }
 
-                            panel.Controls.Add(rowPanel); // Satýrý ekle
+                            panel.Controls.Add(rowPanel);
                         }
                     }
+                    
+
+                    if (root.TryGetProperty("menu", out JsonElement menuElement))
+                    {
+                        foreach (JsonProperty section in menuElement.EnumerateObject())
+                        {
+                            // Eðer "menu" nesnesinde "control" adýnda bir dizi varsa
+                            if (section.Name == "control" && section.Value.ValueKind == JsonValueKind.Array)
+                            {
+                                JsonElement controlArray = section.Value;
+
+                                // Dizi en az 3 elemanlý ve ilk eleman "alwaysontop" ise iþle
+                                if (controlArray.GetArrayLength() >= 3 && controlArray[0].GetString() == "alwaysontop")
+                                {
+                                    // JSON'daki renkleri oku (örnek: "#00ff00", "green" veya "gray")
+                                    string greenColorValue = controlArray[1].GetString();
+                                    string grayColorValue = controlArray[2].GetString();
+
+                                    // TopMost durumuna göre baþlangýç rengini ayarla
+                                    Color currentColor = this.TopMost
+                                        ? TryParseColor(greenColorValue)
+                                        : TryParseColor(grayColorValue);
+
+                                    // Küçük renkli kutucuk (ToolStripButton) oluþtur
+                                    ToolStripButton topMostIndicator = new ToolStripButton
+                                    {
+                                        Text = "",
+                                        DisplayStyle = ToolStripItemDisplayStyle.None,
+                                        BackColor = currentColor,
+                                        Size = new Size(15, 10),
+                                        AutoSize = false,
+                                        Margin = new Padding(1, 1, 1, 1)
+                                    };
+
+                                    // Týklanýnca TopMost durumunu deðiþtir ve rengi güncelle
+                                    topMostIndicator.Click += (sender, e) =>
+                                    {
+                                        this.TopMost = !this.TopMost;
+
+                                        topMostIndicator.BackColor = this.TopMost
+                                            ? TryParseColor(greenColorValue)
+                                            : TryParseColor(grayColorValue);
+                                    };
+
+                                    // Menüye kutucuðu ekle (baþlýk olmadan, sadece renkli kutu)
+                                    menuStrip.Items.Add(new ToolStripSeparator());
+                                    menuStrip.Items.Add(topMostIndicator);
+                                }
+
+                                // "control" zaten iþlendi, atla
+                                continue;
+                            }
+
+                            // Diðer menü baþlýklarý ("Belgelerim" gibi)
+                            if (section.Value.ValueKind == JsonValueKind.Array)
+                            {
+                                ToolStripMenuItem menuItem = new ToolStripMenuItem(section.Name);
+
+                                foreach (JsonElement item in section.Value.EnumerateArray())
+                                {
+                                    if (item.TryGetProperty("list", out JsonElement listElement))
+                                    {
+                                        ToolStripMenuItem subItem = new ToolStripMenuItem(listElement.GetString());
+
+                                        subItem.Click += (sender, e) =>
+                                        {
+                                            string openFile = item.GetPropertyOrDefault("openfile");
+                                            string openFileMin = item.GetPropertyOrDefault("openfilemin");
+                                            string openFolder = item.GetPropertyOrDefault("openfolder");
+                                            string args = item.GetPropertyOrDefault("args");
+
+                                            LaunchProcess(openFile, openFileMin, openFolder, args);
+                                        };
+
+                                        menuItem.DropDownItems.Add(subItem);
+                                    }
+                                }
+
+                                menuStrip.Items.Add(menuItem);
+                                menuStrip.Padding = new Padding(0); // Varsayýlaný 6, azaltýnca daralýr
+                            }
+                        }
+                    }
+
+
                 }
                 catch (Exception ex)
                 { MessageBox.Show("JSON verisi okunurken hata oluþtu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -149,67 +254,83 @@ namespace a16
             }
         }
 
-
-
-        private void OpenProgram(string openfile, string openfolder)
+        private Color TryParseColor(string value)
         {
-            if (!string.IsNullOrEmpty(openfile) && File.Exists(openfile))
+            try
             {
-                try
+                // Eðer hex gibi görünüyorsa (örneðin: #00ff00)
+                if (value.StartsWith("#"))
                 {
-                    string extension = Path.GetExtension(openfile).ToLower();
-                    string[] parts = openfile.Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
-                    string filePath = parts[0];
-                    string arguments = parts.Length > 1 ? parts[1] : "";
-
-                    if (extension == ".exe" || extension == ".bat")
-                    {
-                        ProcessStartInfo psi = new ProcessStartInfo(filePath)
-                        {
-                            UseShellExecute = true,
-                            Arguments = arguments
-                        };
-                        Process.Start(psi);
-                    }
-                    else if (extension == ".py")
-                    {
-                        Process.Start(new ProcessStartInfo("python", $"\"{filePath}\" {arguments}") { UseShellExecute = false });
-                    }
-                    else if (extension == ".js")
-                    {
-                        Process.Start(new ProcessStartInfo("node", $"\"{filePath}\" {arguments}") { UseShellExecute = false });
-                    }
-                    else if (extension == ".html")
-                    {
-                        Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
-                    }
-                    else
-                    {
-                        Process.Start(new ProcessStartInfo("explorer.exe", $"/select,\"{filePath}\"") { UseShellExecute = true });
-                    }
+                    return ColorTranslator.FromHtml(value);
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Dosya açýlýrken hata oluþtu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return Color.FromName(value);
                 }
             }
-            else if (!string.IsNullOrEmpty(openfolder) && Directory.Exists(openfolder))
+            catch
             {
-                try
-                {
-                    Process.Start(new ProcessStartInfo(openfolder) { UseShellExecute = true });
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Klasör açýlýrken hata oluþtu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Belirtilen dosya veya klasör bulunamadý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Hatalýysa varsayýlan olarak gri ver
+                return Color.Gray;
             }
         }
 
+
+
+        private void LaunchProcess(string file, string fileMin, string folder, string args)
+        {
+            if (!string.IsNullOrEmpty(file))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = file,
+                    Arguments = args,
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Normal
+                });
+            }
+            else if (!string.IsNullOrEmpty(fileMin))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = fileMin,
+                    Arguments = args,
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Minimized
+                });
+            }
+            else if (!string.IsNullOrEmpty(folder))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = folder,
+                    UseShellExecute = true
+                });
+            }
+        }
+
+
+
         
+    }
+}
+public static class JsonExtensions
+{
+    public static string GetPropertyOrDefault(this JsonElement element, string propertyName)
+    {
+        if (element.TryGetProperty(propertyName, out JsonElement value))
+        {
+            try
+            {
+                return value.GetString() ?? string.Empty;
+            }
+            catch (ObjectDisposedException)
+            {
+                // Hata olursa, boþ deðer döndür
+                return string.Empty;
+            }
+        }
+
+        return string.Empty;
     }
 }

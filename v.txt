@@ -3,3 +3,4 @@
 1.2 Readme düzenlenmesi
 1.2.1 Readme düzenlenmesi
 2.2 yeniden yazıldı
+3.x Arg, Filemin Alwaysontop ve Butonlar için metin kadar  uzunluk eklendi
