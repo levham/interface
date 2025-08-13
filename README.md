@@ -21,16 +21,18 @@
 | _**menu**_  | _menuler_|
 | _list_    | _menuler için seçenekler_|
 | _openfile_    | _dosya çalıştır_|
-| _openfile_    | _minimum olarak dosya çalıştır_|
+| _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
 | _**buttons**_  | _butonlar_|
 | _text_    | _butonlar için seçenekler_|
 | _openfile_    | _dosya çalıştır_|
-| _openfile_    | _minimum olarak dosya çalıştır_|
+| _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
 <br>
-> [!NOTE]
-> "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc" } bu komut ile programı parametreli çalıştırmış olursun.
+<br>
+
+> [!TIP]
+>  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programı parametreli çalıştırmış olursun.
 <br>
 <br>
 
