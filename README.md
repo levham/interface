@@ -18,11 +18,16 @@
 | _**menu**_  | _menuler_|
 | _list_    | _menuler için seçenekler_|
 | _openfile_    | _dosya çalıştır_|
+| _openfile_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
 | _**buttons**_  | _butonlar_|
 | _text_    | _butonlar için seçenekler_|
 | _openfile_    | _dosya çalıştır_|
+| _openfile_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
+<br>
+> [!NOTE]
+> "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc" } bu komut ile programı parametreli çalıştırmış olursun.
 <br>
 <br>
 
@@ -32,31 +37,37 @@
 ``` 
 {
     "form": {
-        "name":"Arayüz16.2.x",
+        "name":"Arayüz16.3.x",
         "width": 550,
-        "height": 120,
-        "location": [0, 0]
+        "height":140,
+        "location": [-8, -10],
+	    "buttonsize":"auto",
+	    "alwaysontop":true,
+	    "brightness":80
     },
     "menu": {
+    "control":["alwaysontop","#b7d0bc","#fae5d3"],
         "program": [
-            { "id": 1, "list": "Taskmgr", "openfile": "C:\\Windows\\System32\\taskmgr.exe" },
-            { "id": 2, "list": "Kaydet", "openfile": "C:\\Windows\\System32\\mspaint.exe" }
+            { "list": "Taskmgr"  , "openfile": "C:\\Windows\\System32\\taskmgr.exe" },
+            { "list": "Kaydet"   , "openfilemin": "C:\\Windows\\System32\\mspaint.exe" }
         ],
         "dosyalarım": [
-            { "id": 1, "list": "System32", "openfolder": "C:\\Windows\\System32" }
+            { "list": "System32" , "openfolder": "C:\\Windows\\System32" }
         ]
     },
     "buttons": [
         [
-            { "id": 1, "text": "Cmd", "openfile": "C:\\Windows\\System32\\cmd.exe" },
-            { "id": 2, "text": "Notepad", "openfile": "C:\\Windows\\System32\\notepad.exe" }
+            { "text": "Cmd"       , "openfile": "C:\\Windows\\System32\\cmd.exe" }, 
+            { "text": "Paint"     , "openfile": "C:\\Windows\\System32\\mspaint.exe" }, 
+            { "text": "Notepad"   , "openfile": "C:\\Windows\\System32\\notepad.exe" },
+            { "text": "Notepad2"  , "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc" }
         ],
         [
-            { "id": 3, "text":  "System32", "openfolder": "C:\\Windows\\System32" },
-            { "id": 4, "text": "Calculator", "openfile": "C:\\Windows\\System32\\calc.exe" }
+            { "text":  "System32" , "openfolder": "C:\\Windows\\System32" },
+            { "text": "Calculator", "openfile": "C:\\Windows\\System32\\calc.exe" }
         ]
     ] 
-}
+} 
 ```
 <br>
 
