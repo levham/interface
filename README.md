@@ -27,7 +27,7 @@
 | _openfolder_    | _klasör çalıştır_|
 <br>
 > [!NOTE]
-> "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc" } bu komut ile programı parametreli çalıştırmış olursun.
+>  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programı parametreli çalıştırmış olursun.
 <br>
 <br>
 
