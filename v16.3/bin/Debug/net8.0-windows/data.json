@@ -4,15 +4,15 @@
         "width": 550,
         "height":140,
         "location": [-8, -10],
-	    "buttonsize":"auto",
-	    "alwaysontop":true,
-	    "brightness":80
+	"buttonsize":"auto",
+	"alwaysontop":true,
+	"brightness":80
     },
     "menu": {
     "control":["alwaysontop","#b7d0bc","#fae5d3"],
         "program": [
             { "list": "Taskmgr"  , "openfile": "C:\\Windows\\System32\\taskmgr.exe" },
-            { "list": "Kaydet"   , "openfilemin": "C:\\Windows\\System32\\mspaint.exe" }
+            { "list": "Notepad"   , "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc" }
         ],
         "dosyalarım": [
             { "list": "System32" , "openfolder": "C:\\Windows\\System32" }
