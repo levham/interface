@@ -162,7 +162,7 @@
 |`location:[0, 0]`     | _pencere konumu_|
 | _**buttons**_  | _buttonlar_|
 | _id_    | _buttonun idsi_|
-| _text_    | _button adı _|
+| _text_    | _button adı_|
 | _**events**_  | _butonlar_|
 | _id_    | _buttonun idsi_|
 | _eventName_     | _dosya çalıştır_| 
