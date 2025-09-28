@@ -1,13 +1,49 @@
 # 📂 interface
 
-> [!TIP]
-> ✨Bu program ile kendi butonlu menünüzü data.json dosyası üzerinden yazabilirsiniz.<br/>→Program şurada -> [_**bin\Debug\net8.0-windows\a16.exe**_](https://github.com/levham/interface/blob/main/bin/Debug/net8.0-windows/a16.exe). 
+> [!WARNING]
+> ✨Bu program Windows platformunda çalşmaktadır<br/>✨Kendi butonlu menünüzü data.json dosyası üzerinden yazabilirsiniz.
 
-> [!NOTE]
-> data.json içeriğini değiştirdikten sonra a16.exe'yi çalştırabilirsiniz.<br>Json dosyası içeriğini dikkatli yazın.
+ ```mermaid
+graph LR
+A[İnterface]--> B( v16.2)-->E(Debug)--> F(bin)--> G(net8.0-windows)--> H(a16.2)
+A --> C(v16.3)-->  E-->F -->G--> I(a16.3)
+A --> D(v16.5) --> E-->F -->G--> J(a16.5)
+```
+
+> #Programın diğer sürümleri
+> [_**v16.2\bin\Debug\net8.0-windows\a16.2.exe**_](https://github.com/levham/interface/blob/main/v16.2/bin/Debug/net8.0-windows/a16.2.exe)
+> [_**v16.3\bin\Debug\net8.0-windows\a16.3.exe**_](https://github.com/levham/interface/blob/main/v16.3/bin/Debug/net8.0-windows/a16.3.exe)
+> [_**v16.5\bin\Debug\net8.0-windows\a16.5.exe**_](https://github.com/levham/interface/blob/main/v16.5/bin/Debug/net8.0-windows/a16.5.exe)
+
+
+> [!TIP]
+> ✨v16.2.exe için → button.json <br/>✨v16.3.exe ve v16.5 için → data.json <br/>→ dosyaları ile menünüzü yazabilirsiniz.
  
 
-### 📂 button.json
+### 📂v16.5 için  data.json
+| ✨ Parametre | 📌 Açıklama|
+|---------------|-------------------|
+| _**settings**_      | _pencere hakkında_| 
+| `"width": 500`       | _pencere genişliği_|
+| `"height": 120`      | _pencere yüksekliği_|
+|`"location":[0, 0]`     | _pencere ekranda konumu x y_|
+|`"buttonsize":"auto"` | _butonların uzunluğu_ |
+|`"alwaysontop":true` | _pencere ön planda mı_|
+|`"brightness":90` | _pencere parlaklığı_|
+| _**menu**_  | _menuler_|
+| _list_    | _menuler için alt seçenekleri açar_|
+| _openfile_    | _dosya çalıştır_|
+| _openfilemin_    | _minimum olarak dosya çalıştır_|
+| _openfolder_    | _klasör çalıştırır_|
+<br>
+> [!TIP]
+>  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
+
+> [!TIP]
+>  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
+
+
+### 📂v16.2 için  button.json
 | ✨ Parametre | 📌 Açıklama|
 |---------------|-------------------|
 | _**form**_      | _pencere hakkında_|
@@ -32,12 +68,15 @@
 <br>
 
 > [!TIP]
->  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programı parametreli çalıştırmış olursun.
+>  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
+
+> [!TIP]
+>  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 <br>
 <br>
 
 > [!TIP]
->  ✨✨<ins>**Örnek data.json**</ins> 
+>  ✨✨<ins>**v16.3 için data.json**</ins> 
 
 ``` 
 {
