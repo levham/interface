@@ -1,0 +1,27 @@
+{ 
+  "settings": {
+    "width": 30,
+    "height": 200,
+    "location": [0, 0],
+    "brightness": 90,
+    "alwaysontop": true,
+    "buttonsize":20 
+  },
+  "menu": [
+    {
+      "title": "Dosya",
+      "items": [
+       { "list":  "System32" , "openfolder": "C:\\Windows\\System32" },
+       { "list":  "Program Files" , "openfolder": "C:\\Program Files" },
+      ]
+    },
+    {
+      "title": "Program",
+      "items": [
+       { "list": "Cmd"      ,"openfile": "C:\\Windows\\System32\\cmd.exe" },
+       { "list": "Taskmgr"  ,"openfilemin": "C:\\Windows\\System32\\taskmgr.exe" },
+      ]
+    },
+  ]
+}
+
