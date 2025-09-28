@@ -8,9 +8,7 @@
 
 
 > #Programın diğer sürümleri
-> [_**v16.2\bin\Debug\net8.0-windows\a16.2.exe**_](https://github.com/levham/interface/blob/main/v16.2/bin/Debug/net8.0-windows/a16.2.exe)
-> [_**v16.3\bin\Debug\net8.0-windows\a16.3.exe**_](https://github.com/levham/interface/blob/main/v16.3/bin/Debug/net8.0-windows/a16.3.exe)
-> [_**v16.5\bin\Debug\net8.0-windows\a16.5.exe**_](https://github.com/levham/interface/blob/main/v16.5/bin/Debug/net8.0-windows/a16.5.exe)
+> [_**v16.2\bin\Debug\net8.0-windows\a16.2.exe**_](https://github.com/levham/interface/blob/main/v16.2/bin/Debug/net8.0-windows/a16.2.exe)<br> [_**v16.3\bin\Debug\net8.0-windows\a16.3.exe**_](https://github.com/levham/interface/blob/main/v16.3/bin/Debug/net8.0-windows/a16.3.exe)<br> [_**v16.5\bin\Debug\net8.0-windows\a16.5.exe**_](https://github.com/levham/interface/blob/main/v16.5/bin/Debug/net8.0-windows/a16.5.exe)
 
 
 > [!TIP]
@@ -33,6 +31,7 @@
 | _openfolder_    | _klasör çalıştırır_|
 
 <br>
+
 > [!TIP]
 >  ✨✨<ins>**v16.5 için data.json**</ins> 
 
@@ -73,10 +72,9 @@
 
 <br>
 <br>
-<br>
 -----
 
-### 📂v16.2 için button.json özellikleri
+### 📂v16.3 için button.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
 |---------------|-------------------|
 | _**form**_      | _pencere hakkında_|
@@ -100,15 +98,6 @@
 
 <br>
 
-> [!NOTE]
->  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
-
-> [!NOTE]
->  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
-<br>
-<br>
-<br>
-
 > [!TIP]
 >  ✨✨<ins>**v16.3 için data.json**</ins> 
 
@@ -127,7 +116,7 @@
     "control":["alwaysontop","#b7d0bc","#fae5d3"],
         "program": [
             { "list": "Taskmgr"  , "openfile": "C:\\Windows\\System32\\taskmgr.exe" },
-            { "list": "Kaydet"   , "openfilemin": "C:\\Windows\\System32\\mspaint.exe" }
+            { "list": "Notepad"   , "openfilemin": "C:\\Windows\\System32\\mspaint.exe" }
         ],
         "dosyalarım": [
             { "list": "System32" , "openfolder": "C:\\Windows\\System32" }
@@ -147,13 +136,11 @@
     ] 
 } 
 ```
-<br>
 
 > [!NOTE]
-> 📌**Programın Çalışma Örneği**
+>  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 
-![output](image1.png)
+> [!NOTE]
+>  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 <br>
----
-<br>
-<br>
+<br> 
