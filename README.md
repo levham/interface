@@ -15,7 +15,7 @@
  
 
 
-![output](a16.5.png)
+![output](16.5.png)
 
 ### 📂v16.5 için data.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
@@ -76,7 +76,7 @@
 <br>
 <br>
 
-![output](a16.3.png)
+![output](16.3.png)
 
 ### 📂v16.3 için data.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
@@ -151,7 +151,7 @@
 <br>
 <br> 
 
-![output](a16.2.png)
+![output](16.2.png)
 
 ### 📂v16.2 için button.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
