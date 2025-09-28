@@ -4,9 +4,9 @@
         "width": 550,
         "height":140,
         "location": [-8, -10],
-	"buttonsize":"auto",
-	"alwaysontop":true,
-	"brightness":80
+        "buttonsize":"auto",
+        "alwaysontop":true,
+        "brightness":80
     },
     "menu": {
     "control":["alwaysontop","#b7d0bc","#fae5d3"],
