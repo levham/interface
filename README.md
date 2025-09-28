@@ -11,7 +11,7 @@
 > [_**v16.2\bin\Debug\net8.0-windows\a16.2.exe**_](https://github.com/levham/interface/raw/refs/heads/main/v16.2/bin/Debug/net8.0-windows.zip)<br> [_**v16.3\bin\Debug\net8.0-windows\a16.3.exe**_](https://github.com/levham/interface/raw/refs/heads/main/v16.3/bin/Debug/net8.0-windows.zip)<br> [_**v16.5\bin\Debug\net8.0-windows\a16.5.exe**_](https://github.com/levham/interface/raw/refs/heads/main/v16.5/bin/Debug/net8.0-windows.zip) 
  
 > [!TIP]
-> ✨v16.2.exe için → button.json <br/>✨v16.3.exe ve v16.5 için → data.json <br/>→ dosyaları ile menünüzü yazabilirsiniz.<br/> yukarıdaki linklerde program zip halinde sıkıltılmıştır.<br/>Zip dosyasını ayıkladıktan sonra kullanabilirsiniz<br/>Eğer açılmazsa sağ tıklayın ve engellemeyi kaldırın 
+> ✨v16.2.exe için → button.json <br/>✨v16.3.exe ve v16.5 için → data.json <br/>→ dosyaları ile menünüzü yazabilirsiniz.<br/>Yukarıdaki linklerde program zip halinde sıkıltılmıştır.<br/>Zip dosyasını ayıkladıktan sonra kullanabilirsiniz.<br/>Eğer açılmazsa sağ tıklayın ve engellemeyi kaldırın.
   
 
 ![output](16.5.png)
