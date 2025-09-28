@@ -4,7 +4,7 @@
 > ✨Bu program Windows platformunda çalşmaktadır<br/>✨Kendi butonlu menünüzü data.json dosyası üzerinden yazabilirsiniz.
 
 
-![output](a16.png)
+![output](a16v.png)
 
 
 > #Programın diğer sürümleri<br>
