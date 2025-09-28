@@ -1,0 +1,8 @@
+16.1.0 Proje yazılımı
+16.1.1 Json hatası düzeltildi
+16.1.2 Readme düzenlenmesi
+16.1.2.1 Readme düzenlenmesi
+16.2.2 yeniden yazıldı
+16.3.x Arg, Filemin Alwaysontop ve Butonlar için metin kadar  uzunluk eklendi
+16.4.x Dikey menü tasarımı
+16.5.x Menü ayarları ve dikey menü ince tasarım
