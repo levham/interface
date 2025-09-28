@@ -15,8 +15,7 @@
 
 > [!TIP]
 > ✨v16.2.exe için → button.json <br/>✨v16.3.exe ve v16.5 için → data.json <br/>→ dosyaları ile menünüzü yazabilirsiniz.
- 
-
+  
 ### 📂v16.5 için data.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
 |---------------|-------------------|
@@ -24,7 +23,7 @@
 | `"width": 500`       | _pencere genişliği_|
 | `"height": 120`      | _pencere yüksekliği_|
 |`"location":[0, 0]`     | _pencere ekranda konumu x y_|
-|`"buttonsize":"auto"` | _butonların uzunluğu_ |
+|`"buttonsize":"20"` | _butonların uzunluğu_ |
 |`"alwaysontop":true` | _pencere ön planda mı_|
 |`"brightness":90` | _pencere parlaklığı_|
 | _**menu**_  | _menuler_|
@@ -34,7 +33,37 @@
 | _openfolder_    | _klasör çalıştırır_|
 
 <br>
-<br>
+> [!TIP]
+>  ✨✨<ins>**v16.5 için data.json**</ins> 
+
+``` 
+{ 
+  "settings": {
+    "width": 30,
+    "height": 200,
+    "location": [0, 0],
+    "brightness": 90,
+    "alwaysontop": true,
+    "buttonsize":20 
+  },
+  "menu": [
+    {
+      "title": "Dosya",
+      "items": [
+       { "list":  "System32" , "openfolder": "C:\\Windows\\System32" },
+       { "list":  "Program Files" , "openfolder": "C:\\Program Files" },
+      ]
+    },
+    {
+      "title": "Program",
+      "items": [
+       { "list": "Cmd"      ,"openfile": "C:\\Windows\\System32\\cmd.exe" },
+       { "list": "Taskmgr"  ,"openfilemin": "C:\\Windows\\System32\\taskmgr.exe" },
+      ]
+    },
+  ]
+}
+``` 
 
 > [!NOTE]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
@@ -44,6 +73,8 @@
 
 <br>
 <br>
+<br>
+-----
 
 ### 📂v16.2 için button.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
@@ -53,7 +84,7 @@
 | `width: 500`       | _pencere genişliği_|
 | `height: 120`      | _pencere yüksekliği_|
 |`location:[0, 0]`     | _pencere konumu_|
-|`buttonsize:auto` | _butonların uzunluğu_ |
+|`buttonsize:20` | _butonların uzunluğu_ |
 |`alwaysontop:true` | _pencere ön planda mı_|
 |`brightness:90` | _pencere parlaklığı_|
 | _**menu**_  | _menuler_|
@@ -68,13 +99,13 @@
 | _openfolder_    | _klasör çalıştır_|
 
 <br>
-<br>
 
 > [!NOTE]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 
 > [!NOTE]
 >  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
+<br>
 <br>
 <br>
 
