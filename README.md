@@ -3,12 +3,9 @@
 > [!WARNING]
 > ✨Bu program Windows platformunda çalşmaktadır<br/>✨Kendi butonlu menünüzü data.json dosyası üzerinden yazabilirsiniz.
 
- ```mermaid
-graph LR
-A[İnterface]--> B( v16.2)-->E(Debug)--> F(bin)--> G(net8.0-windows)--> H(a16.2)
-A --> C(v16.3)-->  E-->F -->G--> I(a16.3)
-A --> D(v16.5) --> E-->F -->G--> J(a16.5)
-```
+
+![output](a16.png)
+
 
 > #Programın diğer sürümleri
 > [_**v16.2\bin\Debug\net8.0-windows\a16.2.exe**_](https://github.com/levham/interface/blob/main/v16.2/bin/Debug/net8.0-windows/a16.2.exe)
@@ -20,7 +17,7 @@ A --> D(v16.5) --> E-->F -->G--> J(a16.5)
 > ✨v16.2.exe için → button.json <br/>✨v16.3.exe ve v16.5 için → data.json <br/>→ dosyaları ile menünüzü yazabilirsiniz.
  
 
-### 📂v16.5 için  data.json
+### 📂v16.5 için data.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
 |---------------|-------------------|
 | _**settings**_      | _pencere hakkında_| 
@@ -35,15 +32,16 @@ A --> D(v16.5) --> E-->F -->G--> J(a16.5)
 | _openfile_    | _dosya çalıştır_|
 | _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştırır_|
-<br>
-> [!TIP]
+<br/>
+<br/>
+> [!NOTE]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 
-> [!TIP]
+> [!NOTE]
 >  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
-
-
-### 📂v16.2 için  button.json
+<br/>
+<br/>
+### 📂v16.2 için button.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
 |---------------|-------------------|
 | _**form**_      | _pencere hakkında_|
@@ -64,13 +62,12 @@ A --> D(v16.5) --> E-->F -->G--> J(a16.5)
 | _openfile_    | _dosya çalıştır_|
 | _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
-<br>
-<br>
-
-> [!TIP]
+<br/>
+<br/>
+> [!NOTE]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 
-> [!TIP]
+> [!NOTE]
 >  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 <br>
 <br>
