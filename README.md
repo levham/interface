@@ -32,15 +32,19 @@
 | _openfile_    | _dosya çalıştır_|
 | _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştırır_|
-<br/>
-<br/>
+
+<br>
+<br>
+
 > [!NOTE]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 
 > [!NOTE]
 >  "openfilemin": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
-<br/>
-<br/>
+
+<br>
+<br>
+
 ### 📂v16.2 için button.json özellikleri
 | ✨ Parametre | 📌 Açıklama|
 |---------------|-------------------|
@@ -62,8 +66,10 @@
 | _openfile_    | _dosya çalıştır_|
 | _openfilemin_    | _minimum olarak dosya çalıştır_|
 | _openfolder_    | _klasör çalıştır_|
-<br/>
-<br/>
+
+<br>
+<br>
+
 > [!NOTE]
 >  "openfile": "C:\\Windows\\System32\\notepad.exe" , "args":"abc"   bu komut ile programa abc kelimesini göndermiş olursun 
 
